@@ -59,7 +59,7 @@ group :test do
   gem 'minitest-reporters',       '1.1.9'
   gem 'rspec-rails'
   gem 'capybara'
-  gem 'rack_session_access'
+  gem 'capybara-webkit'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
