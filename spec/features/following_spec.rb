@@ -5,8 +5,8 @@ RSpec.describe 'Following', type: :feature do
   let(:user) { users(:michael) }
   let(:other) { users(:archer) }
 
-  before { page.set_rack_session(user_id: user.id) }
-  after { page.set_rack_session(user_id: nil) }
+  # before { page.set_rack_session(user_id: user.id) }
+  # after { page.set_rack_session(user_id: nil) }
 
   describe 'following page' do
     subject do
