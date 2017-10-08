@@ -2,27 +2,26 @@ require 'rails_helper'
 
 describe 'Micropost interface', type: :feature do
   fixtures :users, :microposts
-  let(:user) { users(:michael) }
+  let!(:user) { users(:michael) }
 
   before do
-    page.set_rack_session(user_id: user.id)
-    visit root_path
+    login_as(user)
   end
 
   after do
-    page.set_rack_session(user_id: nil)
     visit root_path
   end
 
   describe 'Create new micropost' do
     subject do
       visit root_path
-      fill_in 'micropost_content', with: ''
+      fill_in 'micropost[content]', with: content
       click_button 'Post'
       page
     end
 
     context 'Invalid transmission' do
+      let(:content) { '' }
       it { is_expected.to have_css('div#error_explanation') }
     end
 
@@ -38,8 +37,10 @@ describe 'Micropost interface', type: :feature do
       visit root_path
       click_link 'delete', match: :first
       page.driver.browser.switch_to.alert.accept
+      find('.alert-success')
       page
     end
+
     it { expect { subject }.to change { Micropost.count}.by(-1) }
   end
 end
