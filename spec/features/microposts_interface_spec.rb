@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Micropost interface', type: :feature do
+RSpec.describe 'Micropost interface', type: :feature, js: true do
   fixtures :users, :microposts
   let!(:user) { users(:michael) }
 
@@ -32,7 +32,7 @@ describe 'Micropost interface', type: :feature do
     end
   end
 
-  describe 'Delete micropost', js: true do
+  describe 'Delete micropost' do
     subject do
       visit root_path
       click_link 'delete', match: :first
