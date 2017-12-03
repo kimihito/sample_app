@@ -5,29 +5,7 @@ require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
-require 'capybara/rspec'
 # Add additional requires below this line. Rails is not loaded until this point!
-
-if ENV['USE_REMOTE_SELENIUM'].present?
-  Capybara.register_driver :selenium do |app|
-    selenium_url = "http://#{ENV['SELENIUM_SERVER']}:4444/wd/hub"
-    driver = Capybara::Selenium::Driver.new(app,
-                                            browser: :remote,
-                                            url: selenium_url,
-                                            desired_capabilities: :chrome)
-    # http://qiita.com/gongo/items/ab81aaa9329d745fb39f
-    driver.browser.file_detector = ->(args) do
-      str = args.first.to_s
-      str if File.exist? str
-    end
-    driver
-  end
-  Capybara.server_host = '0.0.0.0'
-  Capybara.javascript_driver = :selenium
-  Capybara.default_driver = :selenium
-end
-
-
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -77,15 +55,4 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   config.include LoginHelper
-  config.include Capybara::DSL
-  config.before(:each) do
-    # Based on https://gist.github.com/rchampourlier/4038197
-    next if ENV['USE_REMOTE_SELENIUM'].blank?
-    server = Capybara.current_session.server
-    Capybara.app_host = "http://#{ENV['SELENIUM_APP_HOST']}:#{server.port}" if server
-  end
-  config.after(:each) do
-    next if ENV['USE_REMOTE_SELENIUM'].blank?
-    Capybara.app_host = nil
-  end
 end

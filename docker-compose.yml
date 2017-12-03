@@ -1,20 +1,13 @@
 version: '2'
 services:
   db:
-    image: postgres
-  selenium-chrome:
-    image: selenium/standalone-chrome
+    image: postgres:9.6
   web:
     build: .
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
-    environment:
-      USE_REMOTE_SELENIUM: 1
-      SELENIUM_SERVER: selenium-chrome
-      SELENIUM_APP_HOST: web
     volumes:
       - .:/myapp
     ports:
       - "3000:3000"
     depends_on:
       - db
-      - selenium-chrome

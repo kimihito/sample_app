@@ -32,7 +32,7 @@ describe 'Micropost interface', type: :feature do
     end
   end
 
-  describe 'Delete micropost' do
+  describe 'Delete micropost', js: true do
     subject do
       visit root_path
       click_link 'delete', match: :first
@@ -41,6 +41,6 @@ describe 'Micropost interface', type: :feature do
       page
     end
 
-    it { expect { subject }.to change { Micropost.count}.by(-1) }
+    it { expect { subject }.to change { Micropost.count }.by(-1) }
   end
 end
