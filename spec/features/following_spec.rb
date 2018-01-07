@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Following', type: :feature do
-  fixtures :users
+  fixtures :users, :relationships
   let!(:user) { users(:michael) }
   let!(:other) { users(:archer) }
 
